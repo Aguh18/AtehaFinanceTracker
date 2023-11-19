@@ -2,6 +2,7 @@ package main
 
 import (
 	"atehafinancetracker/database"
+	"atehafinancetracker/database/migration"
 	"atehafinancetracker/route"
 
 	"github.com/gofiber/fiber/v2"
@@ -14,6 +15,8 @@ func main()  {
 
 	// db connection
 	database.DatabaseInit()
+	// migarate
+	migration.Migrate()
 
 
 
