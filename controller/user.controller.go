@@ -4,6 +4,7 @@ import (
 	"atehafinancetracker/database"
 	"atehafinancetracker/models/entity"
 	"atehafinancetracker/models/request"
+	"atehafinancetracker/utils"
 
 	"github.com/go-playground/validator/v10"
 
@@ -30,6 +31,17 @@ func UserControllerRegister(ctx *fiber.Ctx) error {
 			"error":   err.Error(),
 		})
 	}
+	if hashedpass , err := utils.HashPassword(registerUser.Password); err != nil{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Cannot hash password",
+			"error":   err.Error(),
+		})
+	}else{
+		registerUser.Password = hashedpass
+	}
+
+
 	NewUser := entity.User{
 		Username: registerUser.Username,
 		Name:    registerUser.Name,
