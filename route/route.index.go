@@ -1,6 +1,10 @@
 package route
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"atehafinancetracker/controller"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 
 
@@ -9,6 +13,8 @@ func RouteInit(r *fiber.App)  {
 
 		return ctx.SendString("Hello, World 👋!")
 })
+
+r.Post("/register", controller.UserControllerRegister)
 
 
 }
