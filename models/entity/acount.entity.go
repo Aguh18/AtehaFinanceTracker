@@ -8,6 +8,7 @@ import (
 
 type Acount struct {
 	ID          uint64  `gorm:"primary_key:auto_increment" json:"id"`
+	AcountName  string  `json:"acount_name"`
 	Balance     float64 `json:"balance"`
 	UserId      uint    `json:"user_id"`
 	Transaction []Transaction

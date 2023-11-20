@@ -9,12 +9,15 @@ import (
 
 
 func RouteInit(r *fiber.App)  {
-	r.Get("/", func(ctx *fiber.Ctx) error {
-
-		return ctx.SendString("Hello, World 👋!")
-})
-
+	
+// User Routes
 r.Post("/register", controller.UserControllerRegister)
+
+
+
+
+// Acount Routes
+r.Post("/acount/create", controller.AcountControllerCreate)
 
 
 }
