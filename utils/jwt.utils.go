@@ -32,8 +32,9 @@ func DecodeToken(tokenString string) (jwt.MapClaims, error) {
 	if err != nil {
 		return nil, err
 	}
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		
 		return claims, nil
 		
 	}

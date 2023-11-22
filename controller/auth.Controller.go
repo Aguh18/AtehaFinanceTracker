@@ -53,10 +53,10 @@ func Login(ctx *fiber.Ctx) error {
 
 
 	claims := jwt.MapClaims{}
-	claims["name"] = user.Name
+	claims["username"] = user.Username
 	claims["email"] = user.Email
-	claims["id"] = user.ID
-	claims["exp"] = time.Now().Add(time.Minute * 2).Unix()
+	claims["Id"] = user.ID
+	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
 
 	tokenString , err := utils.GenerateToken(&claims)
 	if err != nil{

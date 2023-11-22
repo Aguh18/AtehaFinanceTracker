@@ -4,7 +4,6 @@ import (
 	"atehafinancetracker/database"
 	"atehafinancetracker/models/entity"
 	"atehafinancetracker/models/request"
-
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
@@ -15,6 +14,8 @@ import (
 func AcountControllerCreate(ctx *fiber.Ctx) error {
 	
 	acountcreateRequest := new(request.AcountRequestCreate)
+	user := ctx.Locals("user").(request.UserLogin)
+
 
 	if err := ctx.BodyParser(acountcreateRequest); err != nil{
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -36,7 +37,7 @@ func AcountControllerCreate(ctx *fiber.Ctx) error {
 	newAcount := entity.Acount{
 		AcountName: acountcreateRequest.AcountName,
 		Balance: acountcreateRequest.Balance,
-		UserId: acountcreateRequest.UserId,
+		UserId: uint(user.ID),
 	}
 
 	if err := database.DB.Create(&newAcount).Error; err != nil{
