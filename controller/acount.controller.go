@@ -11,8 +11,7 @@ import (
 
 
 
-func AcountControllerCreate(ctx *fiber.Ctx) error {
-	
+func AcountControllerCreate(ctx *fiber.Ctx) error {	
 	acountcreateRequest := new(request.AcountRequestCreate)
 	user := ctx.Locals("user").(request.UserLogin)
 

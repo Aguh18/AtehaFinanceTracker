@@ -7,7 +7,7 @@ import (
 	"atehafinancetracker/utils"
 
 	"github.com/go-playground/validator/v10"
-
+	
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -58,8 +58,29 @@ func UserControllerRegister(ctx *fiber.Ctx) error {
 		})
 	}
 
+	
+
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "success create User",
 		"data":    NewUser,
+	})
+}
+
+func UserControllerGetAll(ctx *fiber.Ctx) error {
+	var user []entity.User
+
+
+	err := database.DB.Preload("Acounts").Find(&user).Error
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Cannot get user",
+			"error":   err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "success get all user",
+		"data":    user,
 	})
 }
