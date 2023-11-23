@@ -53,7 +53,35 @@ func AcountControllerCreate(ctx *fiber.Ctx) error {
 		"data": newAcount,
 	})
 
+}
 
+
+func AcountControllerGetByUserId(ctx *fiber.Ctx) error  {
+	
+	Userid := ctx.Params("id")
+	var acount []entity.Acount
+
+	if Userid == "" {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status": "error",
+			"message": "Userid is required",
+		})
+	}
+
+	err := database.DB.Where("user_id =?",Userid).Find(&acount).Error
+	if  err != nil  {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status": "error",
+			"message": "Cannot find acount",
+			"error": err,
+		})
+	}
+
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status": "success",
+		"data": acount,
+	})
 
 
 }
