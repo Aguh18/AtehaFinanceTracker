@@ -7,3 +7,8 @@ type AcountRequestCreate struct {
 	
 	
 }
+
+type AcountRequestUpdate struct {
+	AcountName string `json:"acount_name" `
+	Balance    float64 `json:"balance" `
+}

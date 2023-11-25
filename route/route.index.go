@@ -17,9 +17,10 @@ func RouteInit(r *fiber.App) {
 
 	// create a new account
 	r.Post("/acount/create", middleware.Middelware ,controller.AcountControllerCreate)
-
 	// get all accounts byid
-	r.Get("/acount/:id", middleware.Middelware ,controller.AcountControllerGetByUserId)
+	r.Get("/acount/:userid", middleware.Middelware ,controller.AcountControllerGetByUserId)
+	// update data acount
+	r.Put("/acount/:id", middleware.Middelware ,controller.AcountControllerUpdate)
 
 	// Auth Routes
 	r.Post("/login", controller.Login)
