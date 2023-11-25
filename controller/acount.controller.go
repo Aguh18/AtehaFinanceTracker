@@ -131,3 +131,35 @@ func AcountControllerUpdate(ctx *fiber.Ctx) error {
 		"data":    acount,
 	})
 }
+
+
+
+func AcountControllerDeleteById(ctx *fiber.Ctx) error {
+
+	param := ctx.Params("id")
+	userId := ctx.Locals("user").(request.UserLogin).ID
+	Acount := new(entity.Acount)
+	if param == "" {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Acount id is required",
+		})
+		
+	}
+	err := database.DB.Where("id = ? AND user_id = ?",param, userId).Delete(&Acount).Error
+
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Cannot delete acount",
+			"error":   err,
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status":  "success",
+		"message": "Successfully delete acount",
+		
+	})
+	
+}

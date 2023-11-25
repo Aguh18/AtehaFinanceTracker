@@ -21,6 +21,8 @@ func RouteInit(r *fiber.App) {
 	r.Get("/acount/", middleware.Middelware ,controller.AcountControllerGetByUserId)
 	// update data acount
 	r.Put("/acount/:id", middleware.Middelware ,controller.AcountControllerUpdate)
+	// delete acount
+	r.Delete("/acount/:id", middleware.Middelware ,controller.AcountControllerDeleteById)
 
 	// Auth Routes
 	r.Post("/login", controller.Login)
