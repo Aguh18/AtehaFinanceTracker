@@ -4,6 +4,8 @@ import (
 	"atehafinancetracker/database"
 	"atehafinancetracker/models/entity"
 	"atehafinancetracker/models/request"
+	"atehafinancetracker/models/responses"
+	"log"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -53,15 +55,8 @@ func AcountControllerCreate(ctx *fiber.Ctx) error {
 
 func AcountControllerGetByUserId(ctx *fiber.Ctx) error {
 
-	Userid := ctx.Params("userid")
-	var acount []entity.Acount
-
-	if Userid == "" {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"status":  "error",
-			"message": "Userid is required",
-		})
-	}
+	Userid := ctx.Locals("user").(request.UserLogin).ID
+	var acount []responses.Acount
 
 	err := database.DB.Where("user_id =?", Userid).Find(&acount).Error
 	if err != nil {
@@ -80,6 +75,9 @@ func AcountControllerGetByUserId(ctx *fiber.Ctx) error {
 }
 
 func AcountControllerUpdate(ctx *fiber.Ctx) error {
+
+	userId := ctx.Locals("user").(request.UserLogin).ID
+	log.Println(userId)
 
 	var acount entity.Acount
 
@@ -101,7 +99,7 @@ func AcountControllerUpdate(ctx *fiber.Ctx) error {
 		})
 	}
 
-	if err := database.DB.Where("id = ?", param).First(&acount).Error; err != nil {
+	if err := database.DB.Where("id = ? AND user_id = ? ", param, userId).First(&acount).Error; err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Cannot find acount",
