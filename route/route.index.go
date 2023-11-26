@@ -33,5 +33,8 @@ func RouteInit(r *fiber.App) {
 
 
 	// Transaction Routes
-	r.Post("/transaction/create", controller.TransactionControllerCreate)
+	// transaction create
+	r.Post("/transaction/create", middleware.Middelware, controller.TransactionControllerCreate)
+	// get all transaction by acount id
+	r.Get("/transaction/:id", middleware.Middelware ,controller.TransactionControllerGetByAcountId)
 }

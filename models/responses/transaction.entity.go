@@ -1,26 +1,12 @@
 package responses
 
 import (
-	"database/sql/driver"
+
 	"time"
 
 	"gorm.io/gorm"
 )
 
-type transactionType string
-
-const (
-	DEBIT  transactionType = "DEBIT"
-	CREDIT transactionType = "CREDIT"
-)
-
-func (tt *transactionType) Scan(value interface{}) error {
-	*tt = transactionType(value.([]byte))
-	return nil
-}
-func (tt transactionType) Value() (driver.Value, error) {
-	return string(tt), nil
-}
 
 type Transaction struct {
 	ID              uint64         `gorm:"primary_key:auto_increment" json:"id"`
@@ -30,5 +16,5 @@ type Transaction struct {
 	AcountId        uint           `json:"acount_id"`
 	CreatedAt       time.Time      `json:"created_at"`
 	UpdatedAt       time.Time      `json:"updatedat"`
-	DeletedAt       gorm.DeletedAt `json:"deletedat" gorm:"index"`
+	DeletedAt       gorm.DeletedAt `json:"_" gorm:"index"`
 }
