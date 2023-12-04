@@ -6,6 +6,7 @@ import (
 	"atehafinancetracker/models/request"
 	"atehafinancetracker/models/responses"
 
+
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
@@ -73,28 +74,26 @@ func TransactionControllerGetByAcountId(ctx *fiber.Ctx) error {
 
 	var transaction []responses.Transaction
 	acountid := ctx.Params("id")
-	var user entity.User
-	userid := ctx.Locals("user").(request.UserLogin).ID
+	UserloginId := ctx.Locals("user").(request.UserLogin).ID
 
-	if err := database.DB.Where("id =?", userid).Find(&user).Error; err != nil {
-
+	err := database.DB.Table("transactions").Select("transactions.id, transactions.transaction_type, transactions.amount, transactions.description, transactions.acount_id, transactions.created_at, transactions.updated_at, transactions.deleted_at").Joins("JOIN acounts ON transactions.acount_id = acounts.id").Where("acounts.id = ? AND acounts.user_id =? ", acountid, UserloginId).Scan(&transaction).Error
+	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"succes":  false,
-			"message": "Cannot find user",
-			"error":   err,
-		})
-	}
-
-	if err := database.DB.Where("acount_id =? ", acountid).Find(&transaction).Error; err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"succes":  false,
 			"message": "Cannot find transaction",
 			"error":   err,
 		})
+
 	}
+	if transaction == nil {
+		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "Cannot find transaction",
+		})
+		
+	}
+	
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"succes":      true,
-		"Transaction": transaction,
+		"status": "success",
+		"data":   transaction,
 	})
 }
