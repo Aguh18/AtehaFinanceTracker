@@ -1,0 +1,294 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Finanae tracker",
+        "version": "1.0",
+        "description": "Finanae tracker API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Finanae",
+            "url": "https://finanae.com",
+            "email": "teguh18@gmail.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "http:{environment}.teguh.com",
+            "description": "Todolist resfull api",
+            "variables": {
+                "environment": {
+                    "default": "dev",
+                    "description": "Environment",
+                    "enum": [
+                        "dev",
+                        "prod",
+                        "contoh"
+                    ]
+                }
+            }
+        }
+    ],
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    },
+    "paths": {
+        "/todolist": {
+            "get": {
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
+                "tags": [
+                    "todolist"
+                ],
+                "summary": "Get all todolist",
+                "description": "ini berfungsi untuk mengambil semua nilai",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "aplaction/json": {
+                                "examples": {
+                                    "example1": {
+                                        "value": [
+                                            {
+                                                "id": 1,
+                                                "name": "Makan",
+                                                "done": true,
+                                                "tags": [
+                                                    "makan",
+                                                    "makanan"
+                                                ]
+                                            },
+                                            {
+                                                "id": 2,
+                                                "name": "minum",
+                                                "done": true,
+                                                "tags": [
+                                                    "makan",
+                                                    "minum"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "example2": {
+                                        "value": [
+                                            {
+                                                "id": "1",
+                                                "name": "bangun",
+                                                "done": true,
+                                                "tags": [
+                                                    "laut",
+                                                    "makanan"
+                                                ]
+                                            },
+                                            {
+                                                "id": "3",
+                                                "name": "rumah",
+                                                "done": true,
+                                                "tags": [
+                                                    "sakit",
+                                                    "minum"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/gettodo"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "jwt",
+                        "required": true,
+                        "in": "header",
+                        "description": "Include done todolist",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 30
+                        },
+                        "examples": {
+                            "java": {
+                                "value": "hsdfghksghkdhfgkhdfjghfjhgdjk"
+                            }
+                        }
+                    },
+                    {
+                        "name": "done",
+                        "required": false,
+                        "in": "query",
+                        "description": "Include done todolist",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ]
+            },
+            "post": {
+                "summary": "Create todolist",
+                "description": "ini berfungsi untuk menambahkan nilai",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 30
+                                    },
+                                    "done": {
+                                        "type": "boolean"
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "required": false,
+                                        "minItems": 1,
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            },
+            "put": {
+                "summary": "Update todolist",
+                "description": "ini berfungsi untuk mengubah nilai",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "example1": {
+                                    "value": {
+                                        "name": "Makan",
+                                        "done": true,
+                                        "tags": [
+                                            "makan",
+                                            "makanan"
+                                        ]
+                                    }
+                                },
+                                "example2": {
+                                    "value": {
+                                        "name": "minum",
+                                        "done": true,
+                                        "tags": [
+                                            "makan",
+                                            "minum"
+                                        ]
+                                    }
+                                }
+                            },
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 30
+                                    },
+                                    "done": {
+                                        "type": "boolean"
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "required": false,
+                                        "minItems": 1,
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            }
+        },
+        "/todolist/{id}": {
+            "get": {
+                "summary": "Get todolist by id",
+                "description": "ini berfungsi untuk mengambil nilai berdasarkan id",
+                "responses": {},
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "Include done todolist",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Delete todolist by id",
+                "description": "ini berfungsi untuk menghapus nilai berdasarkan id",
+                "responses": {},
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "description": "Include done todolist",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "jwt": {
+                "description": "authentikasi jwt",
+                "type": "apiKey",
+                "name": "x-token",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "gettodo": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string",
+                            "maxLength": 30
+                        },
+                        "done": {
+                            "type": "boolean"
+                        },
+                        "tags": {
+                            "type": "array",
+                            "required": false,
+                            "minItems": 1,
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

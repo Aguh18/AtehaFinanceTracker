@@ -1,0 +1,92 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "API Title",
+        "version": "1.0",
+        "description": "Sebuah Api Untuk melakukan pencatatan Pengeluaran dan pemasukan",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "teguh180903@gmail.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:{port}",
+            "description": "Local server",
+            "variables": {
+                "port": {
+                    "default": "8080"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "description": "Untuk Membuat dan mendaftarkan User baru",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "example1": {
+                                    "value": {
+                                        "username": "teguh",
+                                        "name": "Asep Teguh Hidaat",
+                                        "email": "teguh180902@gmail.com",
+                                        "password": "teguh123"
+                                    }
+                                }
+                            },
+                            "schema": {
+                                "$ref": "#/components/schemas/register"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "status ok",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "example1": {
+                                        "value": {
+                                            "status": "ok",
+                                            "message": "User berhasil di buat"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "register": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
