@@ -57,7 +57,7 @@ func UserControllerRegister(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "success create User",
+		"succes": true,
 		"data":    NewUser,
 	})
 }

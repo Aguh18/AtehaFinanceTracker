@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Title",
+        "title": "Finance tracker",
         "version": "1.0",
         "description": "Sebuah Api Untuk melakukan pencatatan Pengeluaran dan pemasukan",
         "termsOfService": "http://swagger.io/terms/",
@@ -50,14 +50,45 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "status ok",
+                        "description": "Success register",
                         "content": {
                             "application/json": {
                                 "examples": {
                                     "example1": {
                                         "value": {
-                                            "status": "ok",
-                                            "message": "User berhasil di buat"
+                                            "Success": true,
+                                            "data": {
+                                                "username":"teguh",
+                                                "name": "Asep Teguh Hidaat",
+                                                "email": "tteguh180902@gmail.com",
+                                                "password": "teguh123"
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "succes": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "username": {
+                                                    "type": "string"
+                                                },
+
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "password": {
+                                                    "type": "string"
+                                                }
+                                            }
                                         }
                                     }
                                 }
