@@ -5,7 +5,8 @@ import (
 	"atehafinancetracker/models/entity"
 	"atehafinancetracker/models/request"
 	"atehafinancetracker/utils"
-	
+
+	"atehafinancetracker/models/responses/auth"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -13,14 +14,27 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
+// @Summary Login User
+// @Description Usage of this endpoint will allow user to login and get JWT token
+// @Tags Authentication
+// @Accept json
+// @Produce json
+// @Param loginRequest body request.LoginRequest true "User login information"
+// @Success 200 {object} auth.SuccesResponse "Login success"
+// @Failure 400 {object} auth.FailureResponse "Invalid request"
+// @Router /login [post]
+// @Example loginSuccessExample
+// @Example loginBadRequestExample
 func Login(ctx *fiber.Ctx) error {
 	user := new(entity.User)
 	LoginRequest := new(request.LoginRequest)
 
 	if err := ctx.BodyParser(LoginRequest); err != nil {
-		return ctx.Status(400).JSON(fiber.Map{
-			"success": false,
-			"message": err.Error(),
+		
+		
+		return ctx.Status(400).JSON(auth.FailureResponse{
+			Message: "Invalid request",
+			Success: false,
 		})
 	}
 
@@ -68,12 +82,10 @@ func Login(ctx *fiber.Ctx) error {
 	}
 
 
-
-	return ctx.Status(200).JSON(fiber.Map{
-		"success": true,
-		"message": "Login Success",
-		"token": tokenString,
-
+	
+	return ctx.Status(200).JSON(auth.SuccesResponse{
+		Message: "Login Succes",
+		Success: true,
+		Token: tokenString,
 	})
-
 }
