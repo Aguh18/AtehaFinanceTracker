@@ -1,5 +1,49 @@
 basePath: /
 definitions:
+  account.FailureResponse:
+    properties:
+      message:
+        example: Failed create Account
+        type: string
+      success:
+        example: false
+        type: boolean
+    type: object
+  account.SuccesCreateAccountResponses:
+    properties:
+      data:
+        $ref: '#/definitions/entity.Acount'
+      message:
+        example: Succes Create Account
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  account.SuccesGetDataResponses:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/responses.Acount'
+        type: array
+      message:
+        example: Succes Create Account
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  account.SuccessUpdateAccountResponses:
+    properties:
+      data:
+        $ref: '#/definitions/entity.Acount'
+      message:
+        example: succes update Data
+        type: string
+      succes:
+        example: true
+        type: boolean
+    type: object
   auth.FailureResponse:
     properties:
       message:
@@ -12,7 +56,7 @@ definitions:
   auth.SuccesResponse:
     properties:
       message:
-        example: Login Succes
+        example: Login Success
         type: string
       success:
         example: true
@@ -20,6 +64,86 @@ definitions:
       token:
         example: jhdfkjsbgakjhgsgkhksjgb
         type: string
+    type: object
+  entity.Acount:
+    properties:
+      acount_name:
+        type: string
+      balance:
+        type: number
+      created_at:
+        type: string
+      deletedat:
+        type: string
+      id:
+        type: integer
+      transaction:
+        items:
+          $ref: '#/definitions/entity.Transaction'
+        type: array
+      updatedat:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  entity.Transaction:
+    properties:
+      acount_id:
+        type: integer
+      amount:
+        type: number
+      created_at:
+        type: string
+      deletedat:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      transaction_type:
+        type: string
+      updatedat:
+        type: string
+    type: object
+  entity.User:
+    properties:
+      acounts:
+        items:
+          $ref: '#/definitions/entity.Acount'
+        type: array
+      created_at:
+        type: string
+      deletedat:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      updatedat:
+        type: string
+      username:
+        type: string
+    type: object
+  request.AcountRequestCreate:
+    properties:
+      acount_name:
+        type: string
+      balance:
+        type: number
+    required:
+    - acount_name
+    - balance
+    type: object
+  request.AcountRequestUpdate:
+    properties:
+      acount_name:
+        type: string
+      balance:
+        type: number
     type: object
   request.LoginRequest:
     properties:
@@ -33,17 +157,297 @@ definitions:
     - email
     - password
     type: object
+  request.Transaction:
+    properties:
+      acount_id:
+        type: integer
+      amount:
+        type: number
+      description:
+        type: string
+      transaction_type:
+        type: string
+    required:
+    - acount_id
+    - amount
+    - transaction_type
+    type: object
+  request.User:
+    properties:
+      email:
+        example: teguh22@gmail.com
+        type: string
+      name:
+        example: guhh
+        type: string
+      password:
+        example: password123
+        type: string
+      username:
+        example: guhh
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - username
+    type: object
+  request.UserUpdateRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+  responses.Acount:
+    properties:
+      acount_name:
+        type: string
+      balance:
+        type: number
+      created_at:
+        type: string
+      deletedat:
+        type: string
+      id:
+        type: integer
+      transaction:
+        items:
+          $ref: '#/definitions/responses.Transaction'
+        type: array
+      updatedat:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  responses.Transaction:
+    properties:
+      _:
+        type: string
+      acount_id:
+        type: integer
+      amount:
+        type: number
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      transaction_type:
+        type: string
+      updatedat:
+        type: string
+    type: object
+  transaction.FailureResponse:
+    properties:
+      message:
+        example: 'Failed create '
+        type: string
+      success:
+        example: false
+        type: boolean
+    type: object
+  transaction.SuccesGetTransaction:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/responses.Transaction'
+        type: array
+      message:
+        example: succes
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  transaction.SuccessCreateTransaction:
+    properties:
+      balance:
+        example: 200000
+        type: integer
+      data:
+        $ref: '#/definitions/entity.Transaction'
+      message:
+        example: succes
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
+  user.FailureRegisterResponse:
+    properties:
+      message:
+        example: Email or Password is Already Exist
+        type: string
+      succes:
+        example: false
+        type: boolean
+    type: object
+  user.FailureResponse:
+    properties:
+      message:
+        example: Can't get data
+        type: string
+      succes:
+        example: false
+        type: boolean
+    type: object
+  user.GetAllUser:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/entity.User'
+        type: array
+      message:
+        type: string
+      succes:
+        example: true
+        type: boolean
+    type: object
+  user.SuccessRegister:
+    properties:
+      data:
+        $ref: '#/definitions/entity.User'
+      message:
+        type: string
+      succes:
+        example: true
+        type: boolean
+    type: object
 host: localhost:8080
 info:
   contact:
-    email: fiber@swagger.io
+    email: teguh180902@gmail.com
     name: API Support
   description: This API is for tracking your finance
   license:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
   title: Finance Tracker API
 paths:
+  /acount:
+    get:
+      consumes:
+      - application/json
+      description: Usage of this endpoint is for Create new Account
+      parameters:
+      - description: Jwt Token
+        in: header
+        name: x-token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Succes Get all data By id
+          schema:
+            $ref: '#/definitions/account.SuccesGetDataResponses'
+        "400":
+          description: Failed get data
+          schema:
+            $ref: '#/definitions/account.FailureResponse'
+      summary: Get all Account by user Id
+      tags:
+      - Account
+  /acount/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Usage of this endpoint is for delete account by id
+      parameters:
+      - description: Jwt Token
+        in: header
+        name: x-token
+        required: true
+        type: string
+      - description: id user to update
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Succes Get all data By id
+          schema:
+            $ref: '#/definitions/account.SuccessUpdateAccountResponses'
+        "400":
+          description: Failed get data
+          schema:
+            $ref: '#/definitions/account.FailureResponse'
+      summary: Delete account By id
+      tags:
+      - Account
+    put:
+      consumes:
+      - application/json
+      description: Usage of this endpoint is for Update Data Account by id
+      parameters:
+      - description: Update Data
+        in: body
+        name: CreateBody
+        required: true
+        schema:
+          $ref: '#/definitions/request.AcountRequestUpdate'
+      - description: Jwt Token
+        in: header
+        name: x-token
+        required: true
+        type: string
+      - description: id user to update
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Succes Get all data By id
+          schema:
+            $ref: '#/definitions/account.SuccessUpdateAccountResponses'
+        "400":
+          description: Failed get data
+          schema:
+            $ref: '#/definitions/account.FailureResponse'
+      summary: Update Data Account
+      tags:
+      - Account
+  /acount/create:
+    post:
+      consumes:
+      - application/json
+      description: Usage of this endpoint is for Create new Account
+      parameters:
+      - description: Create Account Data
+        in: body
+        name: CreateBody
+        required: true
+        schema:
+          $ref: '#/definitions/request.AcountRequestCreate'
+      - description: Jwt Token
+        in: header
+        name: x-token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Succes Create
+          schema:
+            $ref: '#/definitions/account.SuccesCreateAccountResponses'
+        "400":
+          description: Failed Create
+          schema:
+            $ref: '#/definitions/account.FailureResponse'
+      summary: Create Account
+      tags:
+      - Account
   /login:
     post:
       consumes:
@@ -70,4 +474,142 @@ paths:
       summary: Login User
       tags:
       - Authentication
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Usage of this endpoint will Create User For Login
+      parameters:
+      - description: User login information
+        in: body
+        name: loginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/request.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login success
+          schema:
+            $ref: '#/definitions/user.SuccessRegister'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/user.FailureRegisterResponse'
+      summary: Register User
+      tags:
+      - User
+  /transaction/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Usage of this endpoint will get all data by account id
+      parameters:
+      - description: Transaction body
+        in: body
+        name: TransactionBody
+        required: true
+        schema:
+          $ref: '#/definitions/request.Transaction'
+      - description: id account to ger
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: transaction  success
+          schema:
+            $ref: '#/definitions/transaction.SuccesGetTransaction'
+        "400":
+          description: transaction failed
+          schema:
+            $ref: '#/definitions/transaction.FailureResponse'
+      summary: get all data by account id
+      tags:
+      - Transaction
+  /transaction/create:
+    post:
+      consumes:
+      - application/json
+      description: Usage of this endpoint will Create Transaction on your account
+      parameters:
+      - description: Transaction body
+        in: body
+        name: TransactionBody
+        required: true
+        schema:
+          $ref: '#/definitions/request.Transaction'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: transaction  success
+          schema:
+            $ref: '#/definitions/transaction.SuccessCreateTransaction'
+        "400":
+          description: transaction failed
+          schema:
+            $ref: '#/definitions/transaction.FailureResponse'
+      summary: Create Transaction
+      tags:
+      - Transaction
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: Usage of this endpoint is for gett all user without jwt param
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Succes Get All Data
+          schema:
+            $ref: '#/definitions/user.GetAllUser'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/user.FailureResponse'
+      summary: Get All data
+      tags:
+      - User
+  /user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Usage of this endpoint is for gett all user without jwt param
+      parameters:
+      - description: User login information
+        in: body
+        name: UpdateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserUpdateRequest'
+      - description: Jwt Token
+        in: header
+        name: x-token
+        required: true
+        type: string
+      - description: id user to update
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Succes Update Data
+          schema:
+            $ref: '#/definitions/user.GetAllUser'
+        "400":
+          description: Update data failed
+          schema:
+            $ref: '#/definitions/user.FailureResponse'
+      summary: Update User
+      tags:
+      - User
 swagger: "2.0"

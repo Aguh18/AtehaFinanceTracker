@@ -4,6 +4,8 @@ import (
 	"atehafinancetracker/database"
 	"atehafinancetracker/models/entity"
 	"atehafinancetracker/models/request"
+
+	usr "atehafinancetracker/models/responses/user"
 	"atehafinancetracker/utils"
 
 	"github.com/go-playground/validator/v10"
@@ -11,15 +13,24 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// @Summary Register User
+// @Description Usage of this endpoint will Create User For Login
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param loginRequest body request.User true "User login information"
+// @Success 200 {object} usr.SuccessRegister "Login success"
+// @Failure 400 {object} usr.FailureRegisterResponse "Invalid request"
+// @Router /register [post]
 func UserControllerRegister(ctx *fiber.Ctx) error {
 
 	registerUser := new(request.User)
 
 	if err := ctx.BodyParser(registerUser); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"status":  "error",
-			"message": "Cannot parse JSON",
-			"error":   err.Error(),
+		return ctx.Status(fiber.StatusBadRequest).JSON(usr.FailureRegisterResponse{
+			Succes: false,
+			Message: "Cannot parse JSON",
+
 		})
 	}
 	valdate := validator.New()
@@ -56,12 +67,23 @@ func UserControllerRegister(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"succes": true,
-		"data":    NewUser,
+	return ctx.Status(fiber.StatusOK).JSON(usr.SuccessRegister{
+		Succes: true,
+		Data: NewUser,
 	})
 }
 
+// @Summary Update User
+// @Description Usage of this endpoint is for gett all user without jwt param
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param UpdateRequest body request.UserUpdateRequest true "User login information"
+// @Param x-token header string true "Jwt Token"
+// @Success 200 {object} usr.GetAllUser "Succes Update Data"
+// @Failure 400 {object} usr.FailureResponse "Update data failed"
+// @Router /user/{id} [get]
+// @Param id path string true "id user to update"
 func UserControllereditUser(ctx *fiber.Ctx) error {
 	userid := ctx.Locals("user").(request.UserLogin).ID
 
@@ -109,20 +131,28 @@ func UserControllereditUser(ctx *fiber.Ctx) error {
 
 }
 
+// @Summary Get All data
+// @Description Usage of this endpoint is for gett all user without jwt param
+// @Tags User
+// @Accept json
+// @Produce json
+// @Success 200 {object} usr.GetAllUser "Succes Get All Data"
+// @Failure 400 {object} usr.FailureResponse "Invalid request"
+// @Router /user [get]
 func UserControllerGetAll(ctx *fiber.Ctx) error {
 	var user []entity.User
 
 	err := database.DB.Preload("Acounts").Find(&user).Error
 	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"status":  "error",
-			"message": "Cannot get user",
-			"error":   err.Error(),
-		})
+		return ctx.Status(fiber.StatusInternalServerError).JSON(usr.FailureResponse{
+			Succes: false,
+			Message: "Can't get data",
+			})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "success get all user",
-		"data":    user,
+	return ctx.Status(fiber.StatusOK).JSON(usr.GetAllUser{
+		Succes: true,
+		Data:  user,
+		Message: "Successfully get all user",
 	})
 }

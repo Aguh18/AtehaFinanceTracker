@@ -30,5 +30,5 @@ type Transaction struct {
 	AcountId        uint           `json:"acount_id"`
 	CreatedAt       time.Time      `json:"created_at"`
 	UpdatedAt       time.Time      `json:"updatedat"`
-	DeletedAt       gorm.DeletedAt `json:"deletedat" gorm:"index"`
+	DeletedAt       gorm.DeletedAt `json:"deletedat" gorm:"index" swaggertype:"string"`
 }

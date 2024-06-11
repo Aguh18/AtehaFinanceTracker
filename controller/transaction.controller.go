@@ -1,25 +1,33 @@
 package controller
 
 import (
+	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v2"
+
 	"atehafinancetracker/database"
 	"atehafinancetracker/models/entity"
 	"atehafinancetracker/models/request"
 	"atehafinancetracker/models/responses"
-
-
-	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
+	trans "atehafinancetracker/models/responses/transaction"
 )
 
+// @Summary Create Transaction
+// @Description Usage of this endpoint will Create Transaction on your account
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Param TransactionBody body request.Transaction true "Transaction body"
+// @Success 200 {object} trans.SuccessCreateTransaction "transaction  success"
+// @Failure 400 {object} trans.FailureResponse  "transaction failed"
+// @Router /transaction/create [post]
 func TransactionControllerCreate(ctx *fiber.Ctx) error {
 	transactionrequest := new(request.Transaction)
 	var acount entity.Acount
 
 	if err := ctx.BodyParser(transactionrequest); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"status":  "error",
-			"message": "Cannot parse JSON",
-			"error":   err.Error(),
+		return ctx.Status(fiber.StatusBadRequest).JSON(trans.FailureResponse{
+			Success: false,
+			Message: "Failed Create Transactiom",
 		})
 	}
 
@@ -61,15 +69,25 @@ func TransactionControllerCreate(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"status":  "success",
-		"message": "Successfully created transaction",
-		"data":    newtransaction,
-		"balance": acount.Balance,
+	return ctx.Status(fiber.StatusCreated).JSON(trans.SuccessCreateTransaction{
+		Data: newtransaction,
+		Balance: int(acount.Balance),
+		Message: "success",
+		Success: true,
 	})
 
 }
 
+// @Summary get all data by account id
+// @Description Usage of this endpoint will get all data by account id
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Param TransactionBody body request.Transaction true "Transaction body"
+// @Success 200 {object} trans.SuccesGetTransaction "transaction  success"
+// @Failure 400 {object} trans.FailureResponse  "transaction failed"
+// @Router /transaction/{id} [get]
+// @Param id path string true "id account to ger"
 func TransactionControllerGetByAcountId(ctx *fiber.Ctx) error {
 
 	var transaction []responses.Transaction
@@ -78,9 +96,9 @@ func TransactionControllerGetByAcountId(ctx *fiber.Ctx) error {
 
 	err := database.DB.Table("transactions").Select("transactions.id, transactions.transaction_type, transactions.amount, transactions.description, transactions.acount_id, transactions.created_at, transactions.updated_at, transactions.deleted_at").Joins("JOIN acounts ON transactions.acount_id = acounts.id").Where("acounts.id = ? AND acounts.user_id =? ", acountid, UserloginId).Scan(&transaction).Error
 	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Cannot find transaction",
-			"error":   err,
+		return ctx.Status(fiber.StatusInternalServerError).JSON(trans.FailureResponse{
+			Success: false,
+			Message: err.Error(),
 		})
 
 	}
@@ -92,8 +110,9 @@ func TransactionControllerGetByAcountId(ctx *fiber.Ctx) error {
 	}
 	
 
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"status": "success",
-		"data":   transaction,
+	return ctx.Status(fiber.StatusOK).JSON(trans.SuccesGetTransaction{
+		Success: true,
+		Data: transaction,
+		Message: "succes get data",
 	})
 }

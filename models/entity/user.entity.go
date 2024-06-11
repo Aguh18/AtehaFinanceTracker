@@ -12,8 +12,8 @@ type User struct {
 	Name      string `json:"name"`
 	Email     string `gorm:"unique" json:"email"`
 	Password  string `json:"password"`
-	Acounts    []Acount `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Acounts    []Acount `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" `
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updatedat"`
-	DeletedAt gorm.DeletedAt `json:"deletedat" gorm:"index"`
+	DeletedAt gorm.DeletedAt `json:"deletedat" gorm:"index " swaggertype:"string"`
 }

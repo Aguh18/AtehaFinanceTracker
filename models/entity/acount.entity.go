@@ -14,5 +14,5 @@ type Acount struct {
 	Transaction []Transaction `gorm:"foreignKey:AcountId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; "`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updatedat"`
-	DeletedAt   gorm.DeletedAt `json:"deletedat" gorm:"index"`
+	DeletedAt   gorm.DeletedAt `json:"deletedat" gorm:"index" swaggertype:"string"`
 }

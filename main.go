@@ -1,19 +1,18 @@
 package main
 
 import (
+	"github.com/gofiber/fiber/v2"
+
 	"atehafinancetracker/database"
 	"atehafinancetracker/database/migration"
 	_ "atehafinancetracker/docs"
 	"atehafinancetracker/route"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 //	@title			Finance Tracker API
 //	@description	This API is for tracking your finance
-//	@termsOfService	http://swagger.io/terms/
 //	@contact.name	API Support
-//	@contact.email	fiber@swagger.io
+//	@contact.email	teguh180902@gmail.com
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 //	@BasePath		/
 // 	@host			localhost:8080

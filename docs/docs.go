@@ -9,10 +9,9 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
-            "email": "fiber@swagger.io"
+            "email": "teguh180902@gmail.com"
         },
         "license": {
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -22,6 +21,188 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/acount": {
+            "get": {
+                "description": "Usage of this endpoint is for Create new Account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Get all Account by user Id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Jwt Token",
+                        "name": "x-token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes Get all data By id",
+                        "schema": {
+                            "$ref": "#/definitions/account.SuccesGetDataResponses"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed get data",
+                        "schema": {
+                            "$ref": "#/definitions/account.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/acount/create": {
+            "post": {
+                "description": "Usage of this endpoint is for Create new Account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Create Account",
+                "parameters": [
+                    {
+                        "description": "Create Account Data",
+                        "name": "CreateBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AcountRequestCreate"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Jwt Token",
+                        "name": "x-token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Succes Create",
+                        "schema": {
+                            "$ref": "#/definitions/account.SuccesCreateAccountResponses"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Create",
+                        "schema": {
+                            "$ref": "#/definitions/account.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/acount/{id}": {
+            "put": {
+                "description": "Usage of this endpoint is for Update Data Account by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Update Data Account",
+                "parameters": [
+                    {
+                        "description": "Update Data",
+                        "name": "CreateBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AcountRequestUpdate"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Jwt Token",
+                        "name": "x-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id user to update",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes Get all data By id",
+                        "schema": {
+                            "$ref": "#/definitions/account.SuccessUpdateAccountResponses"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed get data",
+                        "schema": {
+                            "$ref": "#/definitions/account.FailureResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Usage of this endpoint is for delete account by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Delete account By id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Jwt Token",
+                        "name": "x-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id user to update",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes Get all data By id",
+                        "schema": {
+                            "$ref": "#/definitions/account.SuccessUpdateAccountResponses"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed get data",
+                        "schema": {
+                            "$ref": "#/definitions/account.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "description": "Usage of this endpoint will allow user to login and get JWT token",
@@ -61,9 +242,283 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/register": {
+            "post": {
+                "description": "Usage of this endpoint will Create User For Login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register User",
+                "parameters": [
+                    {
+                        "description": "User login information",
+                        "name": "loginRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login success",
+                        "schema": {
+                            "$ref": "#/definitions/user.SuccessRegister"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/user.FailureRegisterResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/create": {
+            "post": {
+                "description": "Usage of this endpoint will Create Transaction on your account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Create Transaction",
+                "parameters": [
+                    {
+                        "description": "Transaction body",
+                        "name": "TransactionBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Transaction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "transaction  success",
+                        "schema": {
+                            "$ref": "#/definitions/transaction.SuccessCreateTransaction"
+                        }
+                    },
+                    "400": {
+                        "description": "transaction failed",
+                        "schema": {
+                            "$ref": "#/definitions/transaction.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/transaction/{id}": {
+            "get": {
+                "description": "Usage of this endpoint will get all data by account id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "get all data by account id",
+                "parameters": [
+                    {
+                        "description": "Transaction body",
+                        "name": "TransactionBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Transaction"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "id account to ger",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "transaction  success",
+                        "schema": {
+                            "$ref": "#/definitions/transaction.SuccesGetTransaction"
+                        }
+                    },
+                    "400": {
+                        "description": "transaction failed",
+                        "schema": {
+                            "$ref": "#/definitions/transaction.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "description": "Usage of this endpoint is for gett all user without jwt param",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get All data",
+                "responses": {
+                    "200": {
+                        "description": "Succes Get All Data",
+                        "schema": {
+                            "$ref": "#/definitions/user.GetAllUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/user.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "description": "Usage of this endpoint is for gett all user without jwt param",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "description": "User login information",
+                        "name": "UpdateRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserUpdateRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Jwt Token",
+                        "name": "x-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id user to update",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succes Update Data",
+                        "schema": {
+                            "$ref": "#/definitions/user.GetAllUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Update data failed",
+                        "schema": {
+                            "$ref": "#/definitions/user.FailureResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "account.FailureResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Failed create Account"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "account.SuccesCreateAccountResponses": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/entity.Acount"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Succes Create Account"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "account.SuccesGetDataResponses": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.Acount"
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Succes Create Account"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "account.SuccessUpdateAccountResponses": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/entity.Acount"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "succes update Data"
+                },
+                "succes": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
         "auth.FailureResponse": {
             "type": "object",
             "properties": {
@@ -82,7 +537,7 @@ const docTemplate = `{
             "properties": {
                 "message": {
                     "type": "string",
-                    "example": "Login Succes"
+                    "example": "Login Success"
                 },
                 "success": {
                     "type": "boolean",
@@ -91,6 +546,128 @@ const docTemplate = `{
                 "token": {
                     "type": "string",
                     "example": "jhdfkjsbgakjhgsgkhksjgb"
+                }
+            }
+        },
+        "entity.Acount": {
+            "type": "object",
+            "properties": {
+                "acount_name": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deletedat": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "transaction": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Transaction"
+                    }
+                },
+                "updatedat": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.Transaction": {
+            "type": "object",
+            "properties": {
+                "acount_id": {
+                    "type": "integer"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deletedat": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "transaction_type": {
+                    "type": "string"
+                },
+                "updatedat": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.User": {
+            "type": "object",
+            "properties": {
+                "acounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Acount"
+                    }
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deletedat": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "updatedat": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.AcountRequestCreate": {
+            "type": "object",
+            "required": [
+                "acount_name",
+                "balance"
+            ],
+            "properties": {
+                "acount_name": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "number"
+                }
+            }
+        },
+        "request.AcountRequestUpdate": {
+            "type": "object",
+            "properties": {
+                "acount_name": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "number"
                 }
             }
         },
@@ -108,6 +685,241 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "example": "conthgjoh_passrd"
+                }
+            }
+        },
+        "request.Transaction": {
+            "type": "object",
+            "required": [
+                "acount_id",
+                "amount",
+                "transaction_type"
+            ],
+            "properties": {
+                "acount_id": {
+                    "type": "integer"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "transaction_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.User": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "teguh22@gmail.com"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "guhh"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password123"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "guhh"
+                }
+            }
+        },
+        "request.UserUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.Acount": {
+            "type": "object",
+            "properties": {
+                "acount_name": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deletedat": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "transaction": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.Transaction"
+                    }
+                },
+                "updatedat": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "responses.Transaction": {
+            "type": "object",
+            "properties": {
+                "_": {
+                    "type": "string"
+                },
+                "acount_id": {
+                    "type": "integer"
+                },
+                "amount": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "transaction_type": {
+                    "type": "string"
+                },
+                "updatedat": {
+                    "type": "string"
+                }
+            }
+        },
+        "transaction.FailureResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Failed create "
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "transaction.SuccesGetTransaction": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.Transaction"
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "example": "succes"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "transaction.SuccessCreateTransaction": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "integer",
+                    "example": 200000
+                },
+                "data": {
+                    "$ref": "#/definitions/entity.Transaction"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "succes"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "user.FailureRegisterResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Email or Password is Already Exist"
+                },
+                "succes": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "user.FailureResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Can't get data"
+                },
+                "succes": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "user.GetAllUser": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.User"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                },
+                "succes": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "user.SuccessRegister": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/entity.User"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "succes": {
+                    "type": "boolean",
+                    "example": true
                 }
             }
         }

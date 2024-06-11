@@ -1,7 +1,6 @@
 package responses
 
 import (
-
 	"time"
 
 	"gorm.io/gorm"
@@ -16,5 +15,5 @@ type Transaction struct {
 	AcountId        uint           `json:"acount_id"`
 	CreatedAt       time.Time      `json:"created_at"`
 	UpdatedAt       time.Time      `json:"updatedat"`
-	DeletedAt       gorm.DeletedAt `json:"_" gorm:"index"`
+	DeletedAt       gorm.DeletedAt `json:"_" gorm:"index" swaggertype:"string"`
 }
