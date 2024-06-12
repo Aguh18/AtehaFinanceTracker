@@ -2,7 +2,7 @@ package route
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+
 	"github.com/gofiber/swagger"
 
 	"atehafinancetracker/controller"
@@ -63,7 +63,6 @@ func RouteInit(r *fiber.App) {
 		OAuth2RedirectUrl: "http://localhost:8080/swagger/oauth2-redirect.html",
 	}))
 
-	r.Use(cors.New())
 
 	
 
