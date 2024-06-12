@@ -11,7 +11,7 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "host": "188.166.228.152:8080",
+    "host": "bookingtourney.com",
     "basePath": "/",
     "paths": {
         "/acount": {
