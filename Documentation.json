@@ -11,7 +11,7 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "host": "http://188.166.228.152:8080",
+    "host": "188.166.228.152:8080",
     "basePath": "/",
     "paths": {
         "/acount": {
