@@ -1,11 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This API is for tracking your finance",
+        "description": "This API is for tracking your finance u can find source code on https://github.com/Aguh18/AtehaFinanceTracker.git ",
         "title": "Finance Tracker API",
         "contact": {
             "name": "API Support",
-            "email": "teguh180902@gmail.com"
+            "email": "teguh180902@gmail.com",
+            "url": "https://github.com/Aguh18/AtehaFinanceTracker.git"
         },
         "license": {
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
